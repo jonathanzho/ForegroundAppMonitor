@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -24,7 +27,23 @@ public class MainActivity extends Activity {
 
     String fgPackage = getForegroundPackage();
 
+    BroadcastReceiver saReceiver = new BroadcastReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "saReceiver-onReceive");
+      }
+    };
+
+    IntentFilter saFilter = new IntentFilter("com.android.server.am.START_ACTIVITY");
+
+    registerReceiver(saReceiver, saFilter);
+
     Log.v(TAG, "onCreate: end");
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
   }
 
   private String getForegroundPackage() {
