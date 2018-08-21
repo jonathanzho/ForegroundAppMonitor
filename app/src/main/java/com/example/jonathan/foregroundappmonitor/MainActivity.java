@@ -31,10 +31,17 @@ public class MainActivity extends Activity {
       @Override
       public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "saReceiver-onReceive");
+
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+          String packageName = extras.getString("packageName");
+
+          Log.i(TAG, "saReceiber-onReceive: packageName=[" + packageName + "]");
+        }
       }
     };
 
-    IntentFilter saFilter = new IntentFilter("com.android.server.am.START_ACTIVITY");
+    IntentFilter saFilter = new IntentFilter("com.android.server.am.PAYJOY_SPECIAL_ACTION");
 
     registerReceiver(saReceiver, saFilter);
 
